@@ -1,0 +1,14 @@
+<html>
+ <title>Go upload</title>
+ <body>
+
+ <form action="/" method="post" enctype="multipart/form-data">
+ <label for="file">Filename:</label>
+ <input type="file" name="file" id="file">
+ <input type="submit" name="submit" value="Submit">
+
+ <label id="extraLabel">{{.File}}</label>
+ </form>
+
+ </body>
+ </html>
