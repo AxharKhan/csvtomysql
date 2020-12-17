@@ -1,14 +1,100 @@
 <html>
- <title>Go upload</title>
- <body>
+  <head>
+    <title>Go upload</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+      integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw=="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/static/css/csvtomysql.css" />
 
- <form action="/" method="post" enctype="multipart/form-data">
- <label for="file">Filename:</label>
- <input type="file" name="file" id="file">
- <input type="submit" name="submit" value="Submit">
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
 
- <label id="extraLabel">{{.File}}</label>
- </form>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </head>
 
- </body>
- </html>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col s6">
+          <form
+            action="/store-files"
+            method="post"
+            enctype="multipart/form-data">
+            <div class="file-field input-field">
+            <div class="btn">
+            <span>Upload Your File</span>
+            <input type="file" name="file" id="file" accept=".csv"/>
+            </div>
+            <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Please upload a single .csv file.">
+</div>
+</div>
+<input type="submit" name="submit" value="submit" class="btn btn-waves-effect"/>
+<p class="red-text">{{.FileError}}</p>
+{{ if .isData}}
+            <h3>Data in the CSV File</h3>
+            <div class="divider"></div>
+                                    <table class="responsive-table highlight">
+              <tbody>
+                {{ range .csvpersons }}
+                <tr>
+                  <td>{{ .FirstName }}</td>
+                  <td>{{ .LastName }}</td>
+                  <td>{{ .Age }}</td>
+                  <td>{{ .BloodGroup }}</td>
+                </tr>
+                {{ end }}
+              </tbody>
+            </table>
+{{end}}
+          </form>
+        </div>
+        <div class="col s6">
+          <form action="/read-db" method="get" enctype="mutipart/form-data">
+            <input
+              type="submit"
+              name="read"
+              id="read"
+              value="Read Data From DB"
+              class="btn btn-waves-effect"
+            />
+            <p class="red-text">{{.DBError}}</p>
+            <div class="divider"></div>
+
+            <table class="responsive-table highlight">
+              <thead>
+                <tr>
+                  <td>id</td>
+                  <td>first_name</td>
+                  <td>last_name</td>
+                  <td>age</td>
+                  <td>blood_group</td>
+                </tr>
+              </thead>
+              <tbody>
+                {{ range $_, $person := .dbdata }}
+                <tr>
+                  <td>{{ .Id }}</td>
+                  <td>{{ .FirstName }}</td>
+                  <td>{{ .LastName }}</td>
+                  <td>{{ .Age }}</td>
+                  <td>{{ .BloodGroup }}</td>
+                </tr>
+                {{ end }}
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>   M.AutoInit();
+    </script>
+
+  </body>
+</html>

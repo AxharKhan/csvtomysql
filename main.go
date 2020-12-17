@@ -6,33 +6,34 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/go-sql-driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const dbDriver = "mysql"
-const dbName = "PersonsDb"
-const dbUserName = "dbAdmin"
-const dbPassword = "dbPassword"
-const dbTable = "Persons"
-
 func init() {
-	orm.RegisterDriver(dbDriver, orm.DRMySQL)
+	dbConfig := mysql.NewConfig()
+	dbConfig.User = "dbAdmin"
+	dbConfig.Passwd = "dbPassword"
+	dbConfig.Addr = "mysql:3306"
+	dbConfig.DBName = "PersonsDb"
+	dbConfig.Net = "tcp"
 
-	orm.RegisterDataBase(dbName, dbDriver, dbUserName+":"+dbPassword+"@/"+dbName+"?charset=utf8")
+	orm.RegisterDriver("mysql", orm.DRMySQL)
+
+	orm.RegisterDataBase("default", "mysql", dbConfig.FormatDSN())
 }
 
 func main() {
-	beego.Run()
-
-	// Drop table and re-create.
 	force := true
 
 	// Print log.
 	verbose := true
 
 	// Error.
-	err := orm.RunSyncdb(dbTable, force, verbose)
+	err := orm.RunSyncdb("default", force, verbose)
 	if err != nil {
 		fmt.Println(err)
 	}
+	beego.Run()
+
 }

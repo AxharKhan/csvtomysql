@@ -6,13 +6,13 @@ import (
 
 type Person struct {
 	Id         int
-	Firstname  string
+	FirstName  string
 	LastName   string
 	Age        int64
 	BloodGroup string
 }
 
 func init() {
-	// Need to register model in init
 	orm.RegisterModel(new(Person))
+
 }

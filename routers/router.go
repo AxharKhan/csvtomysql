@@ -8,5 +8,7 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/store-files", &controllers.MainController{}, "post:StoreFiles")
+	beego.Router("/read-db", &controllers.MainController{}, "get:ReadDB")
 
 }
