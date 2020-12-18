@@ -4,7 +4,7 @@ A web app developed with beego framework using ORM that takes *.csv file and upl
 ## Usage
 1. Clone the Repo.
 2. Use the following docker command in the repository directory.
-    `docker compose up`
+    ```docker compose up```
 
 ## References
 [Golang Basics](https://www.w3adda.com/golang-tutorial)
