@@ -27,6 +27,7 @@ func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	flag := false
 
+	// Checks if the Database is ready or not.
 	timeoutExceeded := time.After(5 * time.Minute)
 	for {
 		select {
