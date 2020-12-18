@@ -3,7 +3,7 @@ A web app developed with beego framework using ORM that takes *.csv file and upl
 
 ## Usage
 1. Clone the Repo.
-2. Make sure the 3 ports `3360 for MySQL` `8080 for the webapp` and `3000 for Adminer DBMS` are free
+2. Make sure the 3 ports `3306 for MySQL` `8080 for the webapp` and `3000 for Adminer DBMS` are free
 3. Use the following docker command in the repository directory.
     
   ```docker compose up```
