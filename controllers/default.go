@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/beego/v2/client/orm"
@@ -22,10 +23,12 @@ type MainController struct {
 	beego.Controller
 }
 
+// // Get ..Default Get Method
 func (c *MainController) Get() {
 	c.TplName = "index.html"
 }
 
+// StoreFiles ..Gets File from the front end and stores data in the DB.
 func (c *MainController) StoreFiles() {
 	c.TplName = "index.html"
 
@@ -40,6 +43,14 @@ func (c *MainController) StoreFiles() {
 
 		log.Println("file: " + fileName)
 
+		s := strings.Split(fileName, ".")
+
+		fileextension := s[1]
+
+		if fileextension != "csv" {
+			c.Data["FileError"] = "This File Type is not supported."
+			return
+		}
 		// Parse the file
 		r := csv.NewReader(file)
 
@@ -96,6 +107,7 @@ func (c *MainController) StoreFiles() {
 	}
 }
 
+// ReadDB ..Reads the data from the DB and shows in a table on frontend.
 func (c *MainController) ReadDB() {
 	c.TplName = "index.html"
 	o := orm.NewOrm()
@@ -117,8 +129,4 @@ func (c *MainController) ReadDB() {
 	}
 
 	c.Data["dbdata"] = persons
-}
-
-func (c *MainController) Post() {
-
 }

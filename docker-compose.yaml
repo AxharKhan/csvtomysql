@@ -1,10 +1,9 @@
-version: '3'
+version: '2.1'
 services:
-
+# Creating a mysql Database for the project
   mysql:
     image: mysql:latest
     restart: always
-    # command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: "dbPassword"
       MYSQL_DATABASE: "PersonsDb"
@@ -13,10 +12,10 @@ services:
       LANG: C.UTF-8
     ports:
       - 3306:3306
-    # expose: 
-    #   - 3306
     volumes:
       - mysql-data:/var/lib/mysql
+
+# Creating an adminer DBMS for testing the DB of the Project
   adminer:
     image: adminer:latest
     environment:
@@ -25,13 +24,13 @@ services:
       - mysql
     ports:
       - 3000:8080
+# Creating the Beego Website Image.
   web:
     build: .
     ports:
       - "8080:8080"
     restart: on-failure
     depends_on:
-      - db
-
+      - mysql
 volumes:
   mysql-data:
