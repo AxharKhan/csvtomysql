@@ -41,8 +41,6 @@ func (c *MainController) StoreFiles() {
 		// get the filename
 		fileName := header.Filename
 
-		log.Println("file: " + fileName)
-
 		s := strings.Split(fileName, ".")
 
 		fileextension := s[1]
